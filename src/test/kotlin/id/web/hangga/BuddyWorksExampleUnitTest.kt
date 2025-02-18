@@ -15,7 +15,7 @@ class BuddyWorksExampleUnitTest {
         Thread.sleep(100) // Beri waktu agar GC bekerja
         val runtime = Runtime.getRuntime()
         val usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024
-        println("$label - Used Memory: ${usedMemory} MB")
+        println("$label - Used Memory: $usedMemory MB")
         return usedMemory // Mengembalikan nilai memori yang digunakan
     }
 
@@ -50,7 +50,7 @@ class BuddyWorksExampleUnitTest {
 
         // Assert bahwa coroutines lebih hemat memori daripada threads
         assertTrue(
-            coroutineMemoryIncrease > threadMemoryIncrease * 1.2,
+            coroutineMemoryIncrease <= threadMemoryIncrease * 1.2,
             "Coroutines seharusnya lebih hemat atau setara dibanding threads"
         )
     }
