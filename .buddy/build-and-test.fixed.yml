@@ -11,4 +11,5 @@
     docker_image_tag: 8.12
     execute_commands:
     - gradle build
+    - gradle test
     shell: BASH
