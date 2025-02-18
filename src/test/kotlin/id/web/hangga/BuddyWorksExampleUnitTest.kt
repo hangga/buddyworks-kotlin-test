@@ -11,7 +11,7 @@ class BuddyWorksExampleUnitTest {
     private fun printMemoryUsage(label: String) {
         val runtime = Runtime.getRuntime()
         val usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024
-        println("$label - Used Memory: ${usedMemory}MB")
+        println("$label - Used Memory: ${usedMemory} MB")
     }
 
     @Test
