@@ -13,3 +13,10 @@
     - gradle build
     - gradle test
     shell: BASH
+  - action: gradle test
+    type: BUILD
+    docker_image_name: library/gradle
+    docker_image_tag: 8.12
+    execute_commands:
+    - gradle test
+    shell: BASH
