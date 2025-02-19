@@ -11,20 +11,20 @@ import kotlin.system.measureTimeMillis
 class BuddyWorksExampleUnitTest {
 
     private fun printMemoryUsage(label: String): Long {
-        System.gc() // Paksa garbage collection untuk hasil yang lebih stabil
-        Thread.sleep(100) // Beri waktu agar GC bekerja
+        System.gc() // Force garbage collection for more stable results
+        Thread.sleep(100) // Allow time for GC to work
         val runtime = Runtime.getRuntime()
         val usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024
         println("$label - Used Memory: $usedMemory MB")
-        return usedMemory // Mengembalikan nilai memori yang digunakan
+        return usedMemory // Return the used memory value
     }
 
     @Test
     fun `coroutines mem test`() {
-        // Mengukur memori sebelum eksekusi
+        // Measure memory before execution
         val beforeMemory = printMemoryUsage("Before")
 
-        // Menggunakan thread
+        // Using threads
         val threads = List(10_000) {
             Thread {
                 Thread.sleep(10)
@@ -33,7 +33,7 @@ class BuddyWorksExampleUnitTest {
         threads.forEach { it.join() }
         val afterThreadsMemory = printMemoryUsage("After Threads")
 
-        // Menggunakan coroutines
+        // Using coroutines
         runBlocking {
             val jobs = List(10_000) {
                 launch {
@@ -44,14 +44,14 @@ class BuddyWorksExampleUnitTest {
         }
         val afterCoroutinesMemory = printMemoryUsage("After Coroutines")
 
-        // Memastikan ada peningkatan memori yang terukur
+        // Ensure a measurable increase in memory usage
         val threadMemoryIncrease = max(0, afterThreadsMemory - beforeMemory)
         val coroutineMemoryIncrease = max(0, afterCoroutinesMemory - beforeMemory)
 
-        // Assert bahwa coroutines lebih hemat memori daripada threads
+        // Assert that coroutines use less or equal memory compared to threads
         assertTrue(
             coroutineMemoryIncrease <= threadMemoryIncrease * 1.2,
-            "Coroutines seharusnya lebih hemat atau setara dibanding threads"
+            "Coroutines should be more memory-efficient or at least comparable to threads"
         )
     }
 
@@ -75,7 +75,10 @@ class BuddyWorksExampleUnitTest {
         println("Thread response time: $threadTime ms")
         println("Coroutine response time: $coroutineTime ms")
 
-        // Assertion: Memastikan coroutines tidak lebih lambat secara signifikan dari threads
-        assertTrue(coroutineTime <= threadTime * 1.5, "Coroutines seharusnya tidak jauh lebih lambat dari threads")
+        // Assertion: Ensure coroutines are not significantly slower than threads
+        assertTrue(
+            coroutineTime <= threadTime * 1.5,
+            "Coroutines should not be significantly slower than threads"
+        )
     }
 }
